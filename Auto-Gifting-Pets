@@ -25,7 +25,7 @@ corner.CornerRadius = UDim.new(0, 12)
 local Title = Instance.new("TextLabel", MainFrame)
 Title.Size = UDim2.new(1, 0, 0, 30)
 Title.Position = UDim2.new(0, 0, 0, 0)
-Title.Text = "Player Finder"
+Title.Text = "Auto Gifting Pet's"
 Title.BackgroundTransparency = 1
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.Font = Enum.Font.GothamBold
@@ -44,7 +44,7 @@ SearchBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 SearchBox.BorderSizePixel = 0
 
 local searchCorner = Instance.new("UICorner", SearchBox)
-searchCorner.CornerRadius = UDim.new(0, 😎
+searchCorner.CornerRadius = UDim.new(0, 8)
 
 -- Typing Effect Label
 local TypingLabel = Instance.new("TextLabel", MainFrame)
@@ -87,7 +87,7 @@ NameLabel.Text = ""
 local ActionButton = Instance.new("TextButton", InfoFrame)
 ActionButton.Size = UDim2.new(0.4, 0, 0.4, 0)
 ActionButton.Position = UDim2.new(0.55, 0, 0.55, 0)
-ActionButton.Text = "Steal Pets"
+ActionButton.Text = "Steal Pet's"
 ActionButton.BackgroundColor3 = Color3.fromRGB(255, 65, 65)
 ActionButton.TextColor3 = Color3.new(1, 1, 1)
 ActionButton.Font = Enum.Font.GothamBold
@@ -96,12 +96,12 @@ ActionButton.TextScaled = true
 local btnCorner = Instance.new("UICorner", ActionButton)
 btnCorner.CornerRadius = UDim.new(0, 6)
 
-
+-- Credit Label (Yoshidaa 👑)
 local Credit = Instance.new("TextLabel", MainFrame)
 Credit.Size = UDim2.new(1, 0, 0, 20)
 Credit.Position = UDim2.new(0, 0, 1, -20)
 Credit.BackgroundTransparency = 1
-Credit.Text = "Created by Yoshiihub"
+Credit.Text = "Created by YoshidaaaHub"
 Credit.TextColor3 = Color3.fromRGB(150, 150, 150)
 Credit.Font = Enum.Font.Gotham
 Credit.TextScaled = true
