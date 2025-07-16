@@ -2,6 +2,7 @@
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
+local VirtualInput = game:GetService("VirtualInputManager")
 
 --// GUI Setup
 local gui = Instance.new("ScreenGui", game.CoreGui)
@@ -112,9 +113,9 @@ TweenService:Create(Credit, TweenInfo.new(1), {
 	TextTransparency = 0
 }):Play()
 
--- Typing animation logic
+-- Typing animation
 local typing = false
-spawn(function()
+task.spawn(function()
 	while true do
 		if typing then
 			for i = 1, 3 do
@@ -128,7 +129,7 @@ spawn(function()
 	end
 end)
 
--- Show player info
+-- Show player + auto-type chat
 local function showPlayer(player)
 	local userId = player.UserId
 	local img = Players:GetUserThumbnailAsync(userId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
@@ -144,8 +145,15 @@ local function showPlayer(player)
 	tween:Play()
 
 	ActionButton.MouseButton1Click:Connect(function()
-		print("Action: Steal Pets ->", player.Name)
-		-- insert logic here
+		local text = "/steal " .. player.Name
+		VirtualInput:SendKeyEvent(true, Enum.KeyCode.Slash, false, game)
+		task.wait(0.1)
+
+		for i = 1, #text do
+			local char = text:sub(i, i)
+			VirtualInput:SendTextInput(char, false, false)
+			task.wait(0.02)
+		end
 	end)
 end
 
