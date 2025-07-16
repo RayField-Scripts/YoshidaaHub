@@ -1,0 +1,180 @@
+--// Services
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+
+--// GUI Setup
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "StyledSearchGUI"
+gui.ResetOnSpawn = false
+
+-- Main Panel
+local MainFrame = Instance.new("Frame", gui)
+MainFrame.Size = UDim2.new(0, 320, 0, 200)
+MainFrame.Position = UDim2.new(0, 50, 0, 60)
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+MainFrame.BackgroundTransparency = 0.15
+MainFrame.Visible = true
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+local corner = Instance.new("UICorner", MainFrame)
+corner.CornerRadius = UDim.new(0, 12)
+
+-- Title
+local Title = Instance.new("TextLabel", MainFrame)
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.Text = "Player Finder"
+Title.BackgroundTransparency = 1
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.GothamBold
+Title.TextScaled = true
+
+-- Search Box
+local SearchBox = Instance.new("TextBox", MainFrame)
+SearchBox.Size = UDim2.new(0.9, 0, 0, 35)
+SearchBox.Position = UDim2.new(0.05, 0, 0, 40)
+SearchBox.PlaceholderText = "Type player name..."
+SearchBox.Text = ""
+SearchBox.Font = Enum.Font.Gotham
+SearchBox.TextScaled = true
+SearchBox.TextColor3 = Color3.new(1, 1, 1)
+SearchBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+SearchBox.BorderSizePixel = 0
+
+local searchCorner = Instance.new("UICorner", SearchBox)
+searchCorner.CornerRadius = UDim.new(0, 😎
+
+-- Typing Effect Label
+local TypingLabel = Instance.new("TextLabel", MainFrame)
+TypingLabel.Size = UDim2.new(0.9, 0, 0, 20)
+TypingLabel.Position = UDim2.new(0.05, 0, 0, 80)
+TypingLabel.BackgroundTransparency = 1
+TypingLabel.TextColor3 = Color3.fromRGB(150, 150, 150)
+TypingLabel.Font = Enum.Font.Gotham
+TypingLabel.TextScaled = true
+TypingLabel.Text = ""
+
+-- Player Info Box
+local InfoFrame = Instance.new("Frame", MainFrame)
+InfoFrame.Size = UDim2.new(0.9, 0, 0, 60)
+InfoFrame.Position = UDim2.new(0.05, 0, 0, 110)
+InfoFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+InfoFrame.BackgroundTransparency = 0.1
+InfoFrame.Visible = false
+
+local infoCorner = Instance.new("UICorner", InfoFrame)
+infoCorner.CornerRadius = UDim.new(0, 10)
+
+-- Avatar Image
+local Avatar = Instance.new("ImageLabel", InfoFrame)
+Avatar.Size = UDim2.new(0, 50, 0, 50)
+Avatar.Position = UDim2.new(0, 5, 0.5, -25)
+Avatar.BackgroundTransparency = 1
+
+-- Player Name Label
+local NameLabel = Instance.new("TextLabel", InfoFrame)
+NameLabel.Size = UDim2.new(1, -70, 1, 0)
+NameLabel.Position = UDim2.new(0, 65, 0, 0)
+NameLabel.BackgroundTransparency = 1
+NameLabel.TextColor3 = Color3.new(1, 1, 1)
+NameLabel.Font = Enum.Font.GothamBold
+NameLabel.TextScaled = true
+NameLabel.Text = ""
+
+-- Action Button
+local ActionButton = Instance.new("TextButton", InfoFrame)
+ActionButton.Size = UDim2.new(0.4, 0, 0.4, 0)
+ActionButton.Position = UDim2.new(0.55, 0, 0.55, 0)
+ActionButton.Text = "Steal Pets"
+ActionButton.BackgroundColor3 = Color3.fromRGB(255, 65, 65)
+ActionButton.TextColor3 = Color3.new(1, 1, 1)
+ActionButton.Font = Enum.Font.GothamBold
+ActionButton.TextScaled = true
+
+local btnCorner = Instance.new("UICorner", ActionButton)
+btnCorner.CornerRadius = UDim.new(0, 6)
+
+
+local Credit = Instance.new("TextLabel", MainFrame)
+Credit.Size = UDim2.new(1, 0, 0, 20)
+Credit.Position = UDim2.new(0, 0, 1, -20)
+Credit.BackgroundTransparency = 1
+Credit.Text = "Created by Yoshiihub"
+Credit.TextColor3 = Color3.fromRGB(150, 150, 150)
+Credit.Font = Enum.Font.Gotham
+Credit.TextScaled = true
+Credit.TextStrokeTransparency = 1
+Credit.TextTransparency = 1
+
+TweenService:Create(Credit, TweenInfo.new(1), {
+	TextTransparency = 0
+}):Play()
+
+-- Typing animation logic
+local typing = false
+spawn(function()
+	while true do
+		if typing then
+			for i = 1, 3 do
+				TypingLabel.Text = "Searching" .. string.rep(".", i)
+				wait(0.25)
+			end
+		else
+			TypingLabel.Text = ""
+		end
+		wait(0.05)
+	end
+end)
+
+-- Show player info
+local function showPlayer(player)
+	local userId = player.UserId
+	local img = Players:GetUserThumbnailAsync(userId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
+	Avatar.Image = img
+	NameLabel.Text = player.Name
+
+	InfoFrame.Size = UDim2.new(0.9, 0, 0, 0)
+	InfoFrame.Visible = true
+
+	local tween = TweenService:Create(InfoFrame, TweenInfo.new(0.3), {
+		Size = UDim2.new(0.9, 0, 0, 60)
+	})
+	tween:Play()
+
+	ActionButton.MouseButton1Click:Connect(function()
+		print("Action: Steal Pets ->", player.Name)
+		-- insert logic here
+	end)
+end
+
+-- Search logic
+SearchBox.FocusLost:Connect(function(enterPressed)
+	if enterPressed then
+		typing = true
+		wait(0.5)
+
+		local query = SearchBox.Text:lower()
+		local found = false
+
+		for _, p in pairs(Players:GetPlayers()) do
+			if p.Name:lower():match(query) then
+				showPlayer(p)
+				found = true
+				break
+			end
+		end
+
+		if not found then
+			local tween = TweenService:Create(InfoFrame, TweenInfo.new(0.3), {
+				Size = UDim2.new(0.9, 0, 0, 0)
+			})
+			tween:Play()
+			task.wait(0.3)
+			InfoFrame.Visible = false
+		end
+
+		typing = false
+	end
+end)
